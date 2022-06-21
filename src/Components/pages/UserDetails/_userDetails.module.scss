@@ -2,26 +2,6 @@
 
 .card_login {
   z-index: 10;
-  display: flex;
-  flex-direction: row;
-  padding: 0;
-}
-
-.profile_pic {
-  max-width: 15rem;
-  background-color: #ff7396;
-  padding: 2rem 1.5rem;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  text-align: center;
-
-  & h1 {
-    font-size: 1.5rem;
-    color: $MediumGray;
-  }
-}
-.for_signup {
-  padding: 2rem 1.5rem;
 }
 
 .heading {

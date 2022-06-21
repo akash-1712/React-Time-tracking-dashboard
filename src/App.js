@@ -8,6 +8,9 @@ import MobileNav from "./Components/Utils/Mobile/MobileNav";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthActions } from "./store/auth-slice";
+import Main from "./Components/content/Main";
+import { FetchActivityData } from "./store/activity-action";
+import UserDetails from "./Components/pages/UserDetails/UserDetails";
 
 const calcRemTime = (expTime) => {
   const currTime = new Date().getTime();
@@ -37,10 +40,9 @@ function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.Auth);
   useEffect(() => {
+    dispatch(FetchActivityData());
     const tokenData = getStoredToken();
     if (tokenData.token) {
-      // console.log(tokenData);
-      // console.log(tokenData.duration);
       dispatch(
         AuthActions.login({
           token: tokenData.token,
@@ -63,7 +65,10 @@ function App() {
       <Header></Header>
       <MobileNav></MobileNav>
       <Switch>
-        <Route path="/" exact></Route>
+        <Route path="/" exact>
+          {/* <Main></Main> */}
+          <UserDetails></UserDetails>
+        </Route>
         {!auth.isLoggedIn && (
           <Route path="/login">
             <Login></Login>

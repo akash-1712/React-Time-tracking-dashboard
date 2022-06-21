@@ -5,14 +5,17 @@ import Nav from "./Nav";
 import menu from "../../../images/bars-solid.svg";
 import { backDropActions } from "../../../store/backdrop-slice";
 import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
-        <img src={timeLogo} alt="react-timeLogo" />
-      </div>
+      <NavLink to="/">
+        <div className={styles.logo}>
+          <img src={timeLogo} alt="react-timeLogo" />
+        </div>
+      </NavLink>
 
       <div
         onClick={() => {
