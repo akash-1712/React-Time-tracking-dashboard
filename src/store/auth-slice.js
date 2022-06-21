@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import profilePic from "../images/icons8-user-16.png";
 
 const initialToken = localStorage.getItem("token") || null;
 const authInitialState = {
@@ -7,7 +6,6 @@ const authInitialState = {
   isLoggedIn: !!initialToken,
   authLoading: false,
   logoutTime: !!initialToken,
-  imageUrl: profilePic,
 };
 
 const Auth = createSlice({
@@ -32,10 +30,6 @@ const Auth = createSlice({
     },
     loading(state, action) {
       state.authLoading = action.payload;
-    },
-    appendImage(state, action) {
-      state.imageUrl = action.payload;
-      console.log(action.payload, "ok");
     },
   },
 });

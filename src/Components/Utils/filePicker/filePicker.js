@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import styles from "./_filePicker.module.scss";
 import profilePic from "../../../images/user-g3d45e630c_1280.png";
-import { AuthActions } from "../../../store/auth-slice";
 import { useDispatch } from "react-redux";
 
 const FilePicker = (props) => {
@@ -12,6 +11,7 @@ const FilePicker = (props) => {
 
   useEffect(() => {
     if (image) {
+      props.onImage(image);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
@@ -20,7 +20,7 @@ const FilePicker = (props) => {
     } else {
       setPreview(null);
     }
-  }, [image, dispatch]);
+  }, [image, dispatch, props]);
 
   return (
     <div className={styles.file}>
@@ -46,8 +46,6 @@ const FilePicker = (props) => {
           const file = event.target.files[0];
           if (file && file.type.substring(0, 5) === "image") {
             setImage(file);
-            console.log([file]);
-            dispatch(AuthActions.appendImage([{ file: file }]));
           } else if (image) {
             setImage(image);
           } else {
