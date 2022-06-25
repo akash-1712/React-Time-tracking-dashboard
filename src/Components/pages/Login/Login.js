@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import Card from "../../Utils/Card/Card";
 import styles from "./_login.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { AuthActions } from "../../../store/auth-slice";
+import { UserActions } from "../../../store/user-slice";
+import { useState } from "react";
+import Error from "../../Modal/Error/Error";
 
 const calcRemTime = (expTime) => {
   const currTime = new Date().getTime();
@@ -17,49 +20,68 @@ const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.Auth);
+  const [error, setError] = useState({ isError: false, errorMessage: "" });
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    dispatch(AuthActions.loading(true));
-    const inputUserEmail = inputEmail.current.value;
-    const inputUserPassword = inputPassword.current.value;
-    const response = await fetch("http://localhost:8080/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: inputUserEmail,
-        password: inputUserPassword,
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    dispatch(AuthActions.loading(false));
+    const fetchUser = async () => {
+      dispatch(AuthActions.loading(true));
+      const inputUserEmail = inputEmail.current.value;
+      const inputUserPassword = inputPassword.current.value;
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: inputUserEmail,
+          password: inputUserPassword,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-    if (!response.ok) {
+      dispatch(AuthActions.loading(false));
+
+      if (!response.ok) {
+        const resData = await response.json();
+        throw resData;
+      }
       const resData = await response.json();
+      const expirationTime = new Date().getTime() + +60 * 60 * 1000;
+      localStorage.setItem("expirationTime", expirationTime);
+      const remainingTime = calcRemTime(expirationTime);
+      dispatch(
+        AuthActions.login({
+          token: resData.token,
+          time: expirationTime,
+          timer: setTimeout(() => {
+            console.log("timeOut");
+            dispatch(AuthActions.logout());
+            dispatch(UserActions.userLogOut());
+          }, remainingTime),
+        })
+      );
       console.log(resData);
-      return;
+      const image = "http://localhost:8080/" + resData.imageUrl;
+      console.log(image);
+      dispatch(
+        UserActions.replaceUser({
+          name: resData.name,
+          image: image,
+        })
+      );
+      history.push("/");
+    };
+    try {
+      await fetchUser();
+    } catch (error) {
+      setError({ isError: true, errorMessage: error.message });
     }
-    const resData = await response.json();
-    const expirationTime = new Date().getTime() + +10 * 1000;
-    localStorage.setItem("expirationTime", expirationTime);
-    const remainingTime = calcRemTime(expirationTime);
-    dispatch(
-      AuthActions.login({
-        token: resData.token,
-        time: expirationTime,
-        timer: setTimeout(() => {
-          console.log("timeOut");
-          dispatch(AuthActions.logout());
-        }, remainingTime),
-      })
-    );
-    console.log(resData);
-    history.push("/");
   };
 
   return (
     <Card className={styles.card_login}>
+      {error.isError && <Error message={error.errorMessage}></Error>}
+
       <div className={styles.heading}>
         <h1>Login Form</h1>
       </div>
@@ -89,7 +111,16 @@ const Login = () => {
             Login
           </button>
         )}
-        {auth.authLoading && <button className={styles.btn}>Loading...</button>}
+        {auth.authLoading && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            className={styles.btn}
+          >
+            Loading...
+          </button>
+        )}
       </form>
     </Card>
   );

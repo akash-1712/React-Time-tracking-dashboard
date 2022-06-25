@@ -1,19 +1,34 @@
 import { activityActions } from "./activity-slice";
-import { useSelector } from "react-redux";
 
-export const FetchActivityData = (page = 1) => {
+export const FetchActivityData = (page = 1, isLoggedIn = false) => {
   return async (dispatch) => {
     const fetchData = async () => {
       console.log(page);
-      const response = await fetch(
-        "http://localhost:8080/activity/get?page=" + page,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      );
+      let response;
+      if (!isLoggedIn) {
+        response = await fetch(
+          "http://localhost:8080/activity/get?page=" + page,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        );
+      } else {
+        const token = localStorage.getItem("token");
+        response = await fetch(
+          "http://localhost:8080/activity/authGet?page=" + page,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+      }
+
       if (!response.ok) {
         console.log(response);
         return;
@@ -23,7 +38,6 @@ export const FetchActivityData = (page = 1) => {
     };
     try {
       const activityData = await fetchData();
-      console.log(activityData);
       dispatch(
         activityActions.replaceActivity({
           activityData: activityData.data,

@@ -4,12 +4,14 @@ import styles from "./_nav.module.scss";
 import { AuthActions } from "../../../store/auth-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { UserActions } from "../../../store/user-slice";
 
 const Nav = (props) => {
   const Auth = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(AuthActions.logout());
+    dispatch(UserActions.userLogOut());
   };
   const navClasses = `${styles.nav} ${props.className ? props.className : ""}`;
   return (

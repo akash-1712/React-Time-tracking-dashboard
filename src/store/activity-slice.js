@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FetchActivityData } from "./activity-action";
 
 const initialActivityState = {
   daily: true,
@@ -30,8 +29,9 @@ const activitySlice = createSlice({
       state.data = action.payload.activityData;
       state.totalActivity = action.payload.totalActivity;
       state.itemsPerPage = action.payload.itemsPerPage;
+      state.id = action.payload.id;
 
-      // console.log(state.data);
+      console.log(action.payload);
     },
     previousPage(state, action) {
       state.activityPage = state.activityPage - 1;

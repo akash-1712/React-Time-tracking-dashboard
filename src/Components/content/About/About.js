@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./_about.module.scss";
-import jeremy from "../../../images/image-jeremy.png";
 import { activityActions } from "../../../store/activity-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 const About = (props) => {
+  const user = useSelector((state) => state.user);
   const classes = `${props.className} ${styles.about}`;
   const dispatch = useDispatch();
   const [active, setActive] = useState({
@@ -32,11 +32,11 @@ const About = (props) => {
     <section className={classes}>
       <div className={styles.top}>
         <div className={styles.div_img}>
-          <img src={jeremy} alt="jeremy" />
+          <img src={user.image} alt={user.name} />
         </div>
         <div className={styles.div_name}>
           <p>Report for</p>
-          <h1>Jeremy Robson</h1>
+          <h1>{user.name}</h1>
         </div>
       </div>
       <div className={styles.bottom}>

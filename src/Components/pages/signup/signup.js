@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Card from "../../Utils/Card/Card";
 import styles from "./_signup.module.scss";
 import { AuthActions } from "../../../store/auth-slice";
 import FilePicker from "../../Utils/filePicker/filePicker";
-import { useState } from "react";
-import { useEffect } from "react";
+import { UserActions } from "../../../store/user-slice";
+import Error from "../../Modal/Error/Error";
 
 let url = "../../../images/user-g3d45e630c_1280.png";
 const toDataURL = (url) =>
@@ -42,10 +42,11 @@ const Signup = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.Auth);
   const [image, setImage] = useState();
+  const [error, setError] = useState({ isError: false, errorMessage: "" });
 
   const imageHandler = (selectedImage) => {
     setImage(selectedImage);
-    console.log(image);
+    // console.log(image);
   };
 
   useEffect(() => {
@@ -60,27 +61,32 @@ const Signup = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    fetch("http://localhost:8080/signup", {
+      method: "POST",
+      body: JSON.stringify({ email: "vjdvjdn" }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Promise.reject("Signup");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     dispatch(AuthActions.loading(true));
     const inputUserName = inputName.current.value;
     const inputUserEmail = inputEmail.current.value;
     const inputUserPassword = inputPassword.current.value;
     const inputUserConfirmPassword = confirmPassword.current.value;
     const imageUrl = image;
-    console.log(imageUrl);
+    // console.log(imageUrl);
     const formData = new FormData();
     formData.append("name", inputUserName);
     formData.append("email", inputUserEmail);
     formData.append("password", inputUserPassword);
     formData.append("image", imageUrl);
     formData.append("confirmPassword", inputUserConfirmPassword);
-
-    // JSON.stringify({
-    //   name: inputUserName,
-    //   email: inputUserEmail,
-    //   password: inputUserPassword,
-    //   confirmPassword: inputUserConfirmPassword,
-    // })
-    console.log(imageUrl);
+    // console.log(imageUrl);
     const response = await fetch("http://localhost:8080/signup", {
       method: "POST",
       body: formData,
@@ -89,11 +95,12 @@ const Signup = () => {
     if (!response.ok) {
       const resData = await response.json();
       console.log(resData);
+      setError({ isError: true, errorMessage: resData.message });
       return;
     }
     const resData = await response.json();
     console.log(resData);
-    history.push("./login");
+    history.push("/login");
   };
   return (
     <Card className={styles.card_login}>
@@ -102,6 +109,9 @@ const Signup = () => {
         <h1>Upload Your Profile picture</h1>
       </div>
       <div className={styles.for_signup}>
+        {error.isError && (
+          <Error message={error.errorMessage.toUpperCase()}></Error>
+        )}
         <div className={styles.heading}>
           <h1>SignUp Form</h1>
         </div>
@@ -160,7 +170,14 @@ const Signup = () => {
             </button>
           )}
           {auth.authLoading && (
-            <button className={styles.btn}>Loading...</button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              className={styles.btn}
+            >
+              Loading...
+            </button>
           )}
         </form>
       </div>

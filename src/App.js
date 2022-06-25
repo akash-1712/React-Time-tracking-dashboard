@@ -10,7 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { AuthActions } from "./store/auth-slice";
 import Main from "./Components/content/Main";
 import { FetchActivityData } from "./store/activity-action";
-import UserDetails from "./Components/pages/UserDetails/UserDetails";
+import Activities from "./Components/pages/Activities/Activities";
+import { fetchUser } from "./store/user-action";
 
 const calcRemTime = (expTime) => {
   const currTime = new Date().getTime();
@@ -40,7 +41,7 @@ function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.Auth);
   useEffect(() => {
-    dispatch(FetchActivityData());
+    dispatch(FetchActivityData(1, auth.isLoggedIn));
     const tokenData = getStoredToken();
     if (tokenData.token) {
       dispatch(
@@ -53,8 +54,9 @@ function App() {
           }, tokenData.duration),
         })
       );
+      dispatch(fetchUser());
     }
-  }, [dispatch]);
+  }, [dispatch, auth.isLoggedIn]);
 
   return (
     <Fragment>
@@ -66,8 +68,7 @@ function App() {
       <MobileNav></MobileNav>
       <Switch>
         <Route path="/" exact>
-          {/* <Main></Main> */}
-          <UserDetails></UserDetails>
+          <Main></Main>
         </Route>
         {!auth.isLoggedIn && (
           <Route path="/login">
@@ -77,6 +78,24 @@ function App() {
         {!auth.isLoggedIn && (
           <Route path="/signup">
             <Signup></Signup>
+          </Route>
+        )}
+        {auth.isLoggedIn ? (
+          <Route path="/add-activity">
+            <Activities></Activities>
+          </Route>
+        ) : (
+          <Route>
+            <Redirect to="/login"></Redirect>
+          </Route>
+        )}
+        {auth.isLoggedIn ? (
+          <Route path="/edit-activity/:activityId">
+            <Activities></Activities>
+          </Route>
+        ) : (
+          <Route>
+            <Redirect to="/login"></Redirect>
           </Route>
         )}
         <Route path="*">

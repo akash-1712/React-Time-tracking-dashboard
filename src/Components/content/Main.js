@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import Paginator from "../paginator/Paginator";
 import { FetchActivityData } from "../../store/activity-action";
 import { activityActions } from "../../store/activity-slice";
+import AddActivity from "./AddActivity/AddActivity";
 
-const gridStyle = ["b", "c", "d", "e", "f", "g"];
+const gridStyle = ["c", "d", "e", "f", "g"];
 const gridColor = [
   "hsl(15, 100%, 70%)",
   "hsl(195, 74%, 62%)",
@@ -24,7 +25,8 @@ const Main = () => {
   const component = activity.data?.map((activity, index) => {
     return (
       <Activity
-        key={activity.title}
+        key={activity._id}
+        id={activity._id}
         data={activity}
         className={styles[`${gridStyle[index]}`]}
         color={`${gridColor[index]}`}
@@ -50,6 +52,7 @@ const Main = () => {
       >
         <div className={styles.grid}>
           <About className={styles.a}></About>
+          <AddActivity className={styles.b}></AddActivity>
           {component}
         </div>
       </Paginator>
