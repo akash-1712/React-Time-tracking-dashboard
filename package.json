@@ -46,5 +46,13 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "author": "Akash",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akash-1712/React-Time-tracking-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akash-1712/React-Time-tracking-dashboard/issues"
+  },
+  "homepage": "https://github.com/akash-1712/React-Time-tracking-dashboard#readme"
 }
