@@ -3,7 +3,7 @@ import { activityActions } from "./activity-slice";
 export const FetchActivityData = (page = 1, isLoggedIn = false) => {
   return async (dispatch) => {
     const fetchData = async () => {
-      console.log(page);
+      // console.log(page);
       let response;
       if (!isLoggedIn) {
         response = await fetch(
@@ -30,7 +30,7 @@ export const FetchActivityData = (page = 1, isLoggedIn = false) => {
       }
 
       if (!response.ok) {
-        console.log(response);
+        // console.log(response);
         return;
       }
       const data = await response.json();
@@ -46,7 +46,8 @@ export const FetchActivityData = (page = 1, isLoggedIn = false) => {
         })
       );
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      throw err;
     }
   };
 };

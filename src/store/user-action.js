@@ -12,7 +12,7 @@ export const fetchUser = () => {
         },
       });
       if (!response.ok) {
-        console.log(response);
+        // console.log(response);
       }
       const data = response.json();
       return data;
@@ -28,7 +28,8 @@ export const fetchUser = () => {
         })
       );
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      throw err;
     }
   };
 };

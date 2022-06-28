@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { useState } from "react";
 import Card from "../../Utils/Card/Card";
 import FilePicker from "../../Utils/filePicker/filePicker";
 import styles from "./_userDetails.module.scss";
@@ -9,9 +8,9 @@ const UserDetails = (props) => {
   //   const inputImage = useRef();
   const submitHandler = (event) => {
     event.preventDefault();
-    const inputUserName = inputName.current.value;
+    // const inputUserName = inputName.current.value;
     // const inputUserImage = inputImage.current.src;
-    console.log(inputUserName);
+    // console.log(inputUserName);
   };
   return (
     <Card className={styles.card_login}>

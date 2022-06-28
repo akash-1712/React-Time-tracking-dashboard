@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Card from "../../Utils/Card/Card";
 import styles from "./_login.module.scss";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import { AuthActions } from "../../../store/auth-slice";
 import { UserActions } from "../../../store/user-slice";
 import { useState } from "react";
 import Error from "../../Modal/Error/Error";
+import { backDropActions } from "../../../store/backdrop-slice";
 
 const calcRemTime = (expTime) => {
   const currTime = new Date().getTime();
@@ -21,6 +22,23 @@ const Login = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.Auth);
   const [error, setError] = useState({ isError: false, errorMessage: "" });
+  const [isFirst, setIsFirst] = useState(false);
+  const backDrop = useSelector((state) => state.backdrop);
+
+  useEffect(() => {
+    dispatch(backDropActions.backDropHandler(true));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isFirst) {
+      setIsFirst(true);
+      // console.log("fisrt");
+    }
+    if (isFirst && !backDrop.backDrop) {
+      // console.log("ok");
+      history.push("/");
+    }
+  }, [isFirst, history, backDrop]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -54,21 +72,22 @@ const Login = () => {
           token: resData.token,
           time: expirationTime,
           timer: setTimeout(() => {
-            console.log("timeOut");
+            // console.log("timeOut");
             dispatch(AuthActions.logout());
             dispatch(UserActions.userLogOut());
           }, remainingTime),
         })
       );
-      console.log(resData);
+      // console.log(resData);
       const image = "http://localhost:8080/" + resData.imageUrl;
-      console.log(image);
+      // console.log(image);
       dispatch(
         UserActions.replaceUser({
           name: resData.name,
           image: image,
         })
       );
+      dispatch(backDropActions.backDropHandler(false));
       history.push("/");
     };
     try {

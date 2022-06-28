@@ -5,10 +5,11 @@ import Card from "../../Utils/Card/Card";
 import styles from "./_signup.module.scss";
 import { AuthActions } from "../../../store/auth-slice";
 import FilePicker from "../../Utils/filePicker/filePicker";
-import { UserActions } from "../../../store/user-slice";
 import Error from "../../Modal/Error/Error";
+import { backDropActions } from "../../../store/backdrop-slice.js";
+import url from "../../../images/profile.png";
 
-let url = "../../../images/user-g3d45e630c_1280.png";
+// let url = "../../../images/profile.png";
 const toDataURL = (url) =>
   fetch(url)
     .then((response) => response.blob())
@@ -43,36 +44,35 @@ const Signup = () => {
   const auth = useSelector((state) => state.Auth);
   const [image, setImage] = useState();
   const [error, setError] = useState({ isError: false, errorMessage: "" });
+  const backDrop = useSelector((state) => state.backdrop);
+  const [isFirst, setIsFirst] = useState(false);
 
   const imageHandler = (selectedImage) => {
     setImage(selectedImage);
-    // console.log(image);
   };
+
+  useEffect(() => {
+    dispatch(backDropActions.backDropHandler(true));
+  }, [dispatch]);
 
   useEffect(() => {
     toDataURL(url).then((dataUrl) => {
       // console.log("Here is Base64 Url", dataUrl);
-      var fileData = dataURLtoFile(dataUrl, "user-g3d45e630c_1280.png");
+      var fileData = dataURLtoFile(dataUrl, "profile.png");
       // console.log("Here is JavaScript File Object", fileData);
       // fileArr.push(fileData);
       setImage(fileData);
     });
-  }, []);
+    if (!isFirst) {
+      setIsFirst(true);
+    }
+    if (isFirst && !backDrop.backDrop) {
+      history.push("/");
+    }
+  }, [backDrop, isFirst, history]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    fetch("http://localhost:8080/signup", {
-      method: "POST",
-      body: JSON.stringify({ email: "vjdvjdn" }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return new Promise.reject("Signup");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     dispatch(AuthActions.loading(true));
     const inputUserName = inputName.current.value;
     const inputUserEmail = inputEmail.current.value;
@@ -94,12 +94,12 @@ const Signup = () => {
     dispatch(AuthActions.loading(false));
     if (!response.ok) {
       const resData = await response.json();
-      console.log(resData);
+      // console.log(resData);
       setError({ isError: true, errorMessage: resData.message });
       return;
     }
-    const resData = await response.json();
-    console.log(resData);
+    // const resData = await response.json();
+    // console.log(resData);
     history.push("/login");
   };
   return (

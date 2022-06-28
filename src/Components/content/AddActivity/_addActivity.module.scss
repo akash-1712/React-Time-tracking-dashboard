@@ -10,6 +10,11 @@
   border-radius: 10px;
   overflow: hidden;
 
+  @media (max-width: 680px) {
+    max-width: 18rem;
+    max-height: fit-content;
+  }
+
   &:hover img {
     transform: scale(1.1);
   }

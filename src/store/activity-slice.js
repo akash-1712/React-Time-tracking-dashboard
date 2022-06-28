@@ -31,7 +31,7 @@ const activitySlice = createSlice({
       state.itemsPerPage = action.payload.itemsPerPage;
       state.id = action.payload.id;
 
-      console.log(action.payload);
+      // console.log(action.payload);
     },
     previousPage(state, action) {
       state.activityPage = state.activityPage - 1;

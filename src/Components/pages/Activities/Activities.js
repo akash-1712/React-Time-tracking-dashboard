@@ -39,7 +39,7 @@ const Activities = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(editMode);
+    // console.log(editMode);
     const token = localStorage.getItem("token") || null;
     let url = "http://localhost:8080/activity/post",
       method = "POST";
@@ -64,11 +64,11 @@ const Activities = () => {
       },
     });
     if (!response.ok) {
-      console.log(response);
+      // console.log(response);
       return;
     }
-    const resData = await response.json();
-    console.log(resData);
+    // const resData = await response.json();
+    // console.log(resData);
 
     dispatch(FetchActivityData(1, auth.isLoggedIn));
     history.push("/");

@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import styles from "./_activity.module.scss";
-import work from "../../../images/icon-work.svg";
 import dotes from "../../../images/icon-ellipsis.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { FetchActivityData } from "../../../store/activity-action";
@@ -36,11 +35,11 @@ const Activity = (props) => {
       }
     );
     if (!response.ok) {
-      console.log(response);
+      // console.log(response);
       return;
     }
-    const resData = await response.json();
-    console.log(resData);
+    // const resData = await response.json();
+    // console.log(resData);
     dispatch(FetchActivityData(1, auth.isLoggedIn));
   };
 

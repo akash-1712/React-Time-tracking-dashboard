@@ -49,7 +49,7 @@ function App() {
           token: tokenData.token,
           time: tokenData.duration,
           timer: setTimeout(() => {
-            console.log("timeOut");
+            // console.log("timeOut");
             dispatch(AuthActions.logout());
           }, tokenData.duration),
         })

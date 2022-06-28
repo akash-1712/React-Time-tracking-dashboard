@@ -17,7 +17,7 @@ const Auth = createSlice({
       state.isLoggedIn = !!action.payload.token;
       state.logoutTime = action.payload.timer;
       localStorage.setItem("token", action.payload.token);
-      console.log(state.isLoggedIn);
+      // console.log(state.isLoggedIn);
     },
     logout(state) {
       state.token = null;

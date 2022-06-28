@@ -5,6 +5,13 @@
   display: flex;
   flex-direction: row;
   padding: 0;
+
+  @media (max-width: 580px) {
+    flex-direction: column;
+    position: relative;
+    width: 23rem;
+    margin-top: 2rem;
+  }
 }
 
 .profile_pic {
@@ -14,6 +21,12 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   text-align: center;
+
+  @media (max-width: 580px) {
+    max-width: none;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+  }
 
   & h1 {
     font-size: 1.5rem;

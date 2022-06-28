@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { backDrop: false, mobileNav: false };
+const initialState = { backDrop: false, mobileNav: false, form: false };
 
 const backDrop = createSlice({
   name: "backDrop",
@@ -12,6 +12,10 @@ const backDrop = createSlice({
     mobileNavHandler(state, action) {
       state.backDrop = action.payload;
       state.mobileNav = action.payload;
+    },
+    formHandler(state, action) {
+      state.backDrop = action.payload;
+      state.form = action.payload;
     },
   },
 });

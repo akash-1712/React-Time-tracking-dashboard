@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./_filePicker.module.scss";
-import profilePic from "../../../images/user-g3d45e630c_1280.png";
+import profilePic from "../../../images/profile.png";
 import { useDispatch } from "react-redux";
 
 const FilePicker = (props) => {
