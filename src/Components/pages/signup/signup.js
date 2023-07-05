@@ -88,7 +88,7 @@ const Signup = () => {
     formData.append("confirmPassword", inputUserConfirmPassword);
     // console.log(imageUrl);
     const response = await fetch(
-      "https://react-timer-app-backend.herokuapp.com/signup",
+      "https://react-time.onrender.com/signup",
       {
         method: "POST",
         body: formData,
