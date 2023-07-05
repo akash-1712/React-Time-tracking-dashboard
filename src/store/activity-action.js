@@ -19,7 +19,7 @@ export const FetchActivityData = (page = 1, isLoggedIn = false) => {
       } else {
         const token = localStorage.getItem("token");
         response = await fetch(
-          "https://react-timer-app-backend.herokuapp.com/activity/authGet?page=" +
+          "https://react-time.onrender.com/activity/authGet?page=" +
             page,
           {
             method: "GET",
