@@ -47,7 +47,7 @@ const Login = () => {
       const inputUserEmail = inputEmail.current.value;
       const inputUserPassword = inputPassword.current.value;
       const response = await fetch(
-        "https://react-timer-app-backend.herokuapp.com/login",
+        "https://react-time.onrender.com/login",
         {
           method: "POST",
           body: JSON.stringify({
@@ -83,7 +83,7 @@ const Login = () => {
       );
       // console.log(resData);
       const image =
-        "https://react-timer-app-backend.herokuapp.com/" + resData.imageUrl;
+        "https://react-time.onrender.com/" + resData.imageUrl;
       // console.log(image);
       dispatch(
         UserActions.replaceUser({
