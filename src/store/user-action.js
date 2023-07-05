@@ -6,7 +6,7 @@ export const fetchUser = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "https://react-timer-app-backend.herokuapp.com/user",
+        "https://react-time.onrender.com/user",
         {
           method: "GET",
           headers: {
@@ -24,7 +24,7 @@ export const fetchUser = () => {
     try {
       const userData = await fetchData();
       const image =
-        "https://react-timer-app-backend.herokuapp.com/" + userData.imageUrl;
+        "https://react-time.onrender.com/" + userData.imageUrl;
       dispatch(
         UserActions.replaceUser({
           name: userData.name,
