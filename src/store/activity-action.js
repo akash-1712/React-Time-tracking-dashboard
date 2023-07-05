@@ -7,7 +7,7 @@ export const FetchActivityData = (page = 1, isLoggedIn = false) => {
       let response;
       if (!isLoggedIn) {
         response = await fetch(
-          "https://react-timer-app-backend.herokuapp.com/activity/get?page=" +
+          "https://react-time.onrender.com/activity/get?page=" +
             page,
           {
             method: "GET",
