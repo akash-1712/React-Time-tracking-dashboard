@@ -41,11 +41,11 @@ const Activities = () => {
     event.preventDefault();
     // console.log(editMode);
     const token = localStorage.getItem("token") || null;
-    let url = "https://react-timer-app-backend.herokuapp.com/activity/post",
+    let url = "https://react-time.onrender.com/activity/post",
       method = "POST";
     if (editMode) {
       method = "PUT";
-      url = `https://react-timer-app-backend.herokuapp.com/activity/post/${params.activityId.slice(
+      url = `https://react-time.onrender.com/activity/post/${params.activityId.slice(
         1,
         params.activityId.length
       )}`;
